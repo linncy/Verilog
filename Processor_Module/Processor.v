@@ -39,7 +39,7 @@ module Processor(DIN,Resetn,Clock,Run,Done,BUS);
 	dec3to8 dexC(IR[4:6],1'b1,Xreg);
 	dec3to8 decY(IR[7:9],1'b1,Yreg);
 	
-	always @(Tstep_Q or I or Xreg or Yreg)
+	always @(Tstep_Q or I or Xreg or Yreg or Run)
 	begin
 	//initialize 
 		IRen = 1'b0;
@@ -55,7 +55,8 @@ module Processor(DIN,Resetn,Clock,Run,Done,BUS);
 		case(Tstep_Q)//Time Step
 		2'b00://Step 0
 		begin
-			IRen=1'b1;//store DIN in IR in time step 0
+			IRen=Run;//store DIN in IR in time step 0
+			Done=1'b0;
 		end
 		2'b01://Step 1
 		begin
